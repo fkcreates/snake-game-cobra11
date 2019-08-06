@@ -9,9 +9,11 @@ import com.sun.javafx.geom.Vec2d;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 
+import java.util.ArrayList;
+
 
 public class Game extends Pane {
-    private Snake snake = null;
+    private ArrayList<Snake> snakes = new ArrayList<>();
     private GameTimer gameTimer = new GameTimer();
 
 
@@ -24,11 +26,11 @@ public class Game extends Pane {
     }
 
     public void init() {
-        spawnSnake();
+        spawnSnakes();
         spawnEnemies(4);
         spawnPowerUps(4);
 
-        GameLoop gameLoop = new GameLoop(snake);
+        GameLoop gameLoop = new GameLoop(snakes);
         Globals.getInstance().setGameLoop(gameLoop);
         gameTimer.setup(gameLoop::step);
         gameTimer.play();
@@ -39,9 +41,12 @@ public class Game extends Pane {
         Globals.getInstance().startGame();
     }
 
-    private void spawnSnake() {
-        snake = new Snake(new Vec2d(500, 500));
+    private void spawnSnakes() {
+        for(int i = 1; i <= 2; i++){
+            snakes.add(new Snake((new Vec2d(i * 100d, 600d)), i));
+        }
     }
+
 
     private void spawnEnemies(int numberOfEnemies) {
         for(int i = 0; i < numberOfEnemies; ++i) new SimpleEnemy();

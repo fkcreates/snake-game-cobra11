@@ -13,14 +13,16 @@ import javafx.scene.input.KeyCode;
 public class Snake implements Animatable {
     private static final float speed = 2;
     private int health = 100;
+    private int id;
 
     private SnakeHead head;
     private DelayedModificationList<GameEntity> body;
 
 
-    public Snake(Vec2d position) {
+    public Snake(Vec2d position, int id) {
         head = new SnakeHead(this, position);
         body = new DelayedModificationList<>();
+        this.id = id;
 
         addPart(4);
     }
@@ -37,10 +39,17 @@ public class Snake implements Animatable {
 
     private SnakeControl getUserInput() {
         SnakeControl turnDir = SnakeControl.INVALID;
-        if(InputHandler.getInstance().isKeyPressed(KeyCode.LEFT)) turnDir = SnakeControl.TURN_LEFT;
-        if(InputHandler.getInstance().isKeyPressed(KeyCode.RIGHT)) turnDir = SnakeControl.TURN_RIGHT;
+        if(id == 1) {
+            if (InputHandler.getInstance().isKeyPressed(KeyCode.A)) turnDir = SnakeControl.TURN_LEFT;
+            if(InputHandler.getInstance().isKeyPressed(KeyCode.D)) turnDir = SnakeControl.TURN_RIGHT;
+        }
+        if(id == 2) {
+            if (InputHandler.getInstance().isKeyPressed(KeyCode.LEFT)) turnDir = SnakeControl.TURN_LEFT;
+            if(InputHandler.getInstance().isKeyPressed(KeyCode.RIGHT)) turnDir = SnakeControl.TURN_RIGHT;
+        }
         return turnDir;
     }
+
 
     public void addPart(int numParts) {
         GameEntity parent = getLastPart();
