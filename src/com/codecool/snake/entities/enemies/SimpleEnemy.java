@@ -6,6 +6,8 @@ import com.codecool.snake.entities.Animatable;
 import com.codecool.snake.Utils;
 import com.codecool.snake.entities.Interactable;
 import com.codecool.snake.entities.snakes.SnakeHead;
+
+import java.util.List;
 import java.util.Random;
 
 import javafx.geometry.Point2D;
@@ -19,8 +21,12 @@ public class SimpleEnemy extends Enemy implements Animatable, Interactable {
 
     public SimpleEnemy() {
         super(10);
-
+        boolean cansSpwan;
+        if(!cansSpwan){
+            destroy();
+        }
         setImage(Globals.getInstance().getImage("SimpleEnemy"));
+
         setX(rnd.nextDouble() * Globals.WINDOW_WIDTH);
         setY(rnd.nextDouble() * Globals.WINDOW_HEIGHT);
 
@@ -45,11 +51,28 @@ public class SimpleEnemy extends Enemy implements Animatable, Interactable {
         if(entity instanceof SnakeHead){
             System.out.println(getMessage());
             destroy();
+
         }
     }
 
     @Override
     public String getMessage() {
         return (getDamage() + " damage");
+    }
+
+    public boolean canSpawn(){
+        boolean canspawn = true;
+        List<GameEntity> gameObjs = Globals.getInstance().display.getObjectList();
+        for (int otherObjIdx = 0; otherObjIdx < gameObjs.size(); ++otherObjIdx) {
+            GameEntity otherObj = gameObjs.get(otherObjIdx);
+            if (otherObj instanceof Interactable) {
+                if (this.getBoundsInParent().intersects(otherObj.getBoundsInParent())) {
+                    canspawn = false;
+
+                }
+            }
+        }
+        return canspawn;
+
     }
 }
