@@ -50,6 +50,7 @@ public class SimpleEnemy extends Enemy implements Animatable, Interactable {
     public void apply(GameEntity entity) {
         if(entity instanceof SnakeHead){
             System.out.println(getMessage());
+            Globals.getInstance().game.spawnEn
             destroy();
 
         }
