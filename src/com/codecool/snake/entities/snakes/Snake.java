@@ -32,7 +32,7 @@ public class Snake implements Animatable {
         head.updateRotation(turnDir, speed);
 
         updateSnakeBodyHistory();
-        checkForGameOverConditions();
+        //checkForGameOverConditions();
 
         body.doPendingModifications();
     }
@@ -56,7 +56,7 @@ public class Snake implements Animatable {
         Vec2d position = parent.getPosition();
 
         for (int i = 0; i < numParts; i++) {
-            SnakeBody newBodyPart = new SnakeBody(position);
+            SnakeBody newBodyPart = new SnakeBody(this, position);
             body.add(newBodyPart);
         }
         Globals.getInstance().display.updateSnakeHeadDrawPosition(head);
@@ -66,12 +66,12 @@ public class Snake implements Animatable {
         health -= diff;
     }
 
-    private void checkForGameOverConditions() {
+    /*private void checkForGameOverConditions() {
         if (head.isOutOfBounds() || health <= 0) {
             System.out.println("Game Over");
             Globals.getInstance().stopGame();
         }
-    }
+    }*/
 
     private void updateSnakeBodyHistory() {
         GameEntity prev = head;
@@ -98,5 +98,9 @@ public class Snake implements Animatable {
 
     public DelayedModificationList<GameEntity> getBody(){
         return body;
+    }
+
+    public SnakeHead getHead() {
+        return head;
     }
 }

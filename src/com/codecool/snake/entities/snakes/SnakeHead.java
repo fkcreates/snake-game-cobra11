@@ -53,6 +53,7 @@ public class SnakeHead extends GameEntity implements Interactable {
         if(entity instanceof SnakeBody){
             if(!snake.getBody().getList().contains(entity)){
                 snake.setHealth(0);
+
                 System.out.println("One snake died.");
             }
         }
