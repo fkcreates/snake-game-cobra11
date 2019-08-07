@@ -63,7 +63,7 @@ public class Snake implements Animatable {
     }
 
     public void changeHealth(int diff) {
-        health += diff;
+        health -= diff;
     }
 
     private void checkForGameOverConditions() {
@@ -86,5 +86,13 @@ public class Snake implements Animatable {
 
         if(result != null) return result;
         return head;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public DelayedModificationList<GameEntity> getBody(){
+        return body;
     }
 }
