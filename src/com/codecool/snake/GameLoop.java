@@ -27,9 +27,11 @@ public class GameLoop {
     }
 
     public void step() {
-        if (running) {
-            for (Snake snake : snakes) {
-                snake.step();
+        if(running) {
+            for (Snake snake: snakes) {
+                if(snake.getHealth() > 0) {
+                    snake.step();
+                }
             }
             for (GameEntity gameObject : Globals.getInstance().display.getObjectList()) {
                 if (gameObject instanceof Animatable) {
@@ -37,6 +39,7 @@ public class GameLoop {
                 }
             }
             checkCollisions();
+            Globals.getInstance().game.checkGameOver();
         }
         Globals.getInstance().display.frameFinished();
     }
@@ -58,4 +61,5 @@ public class GameLoop {
             }
         }
     }
+
 }

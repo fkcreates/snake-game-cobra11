@@ -68,14 +68,14 @@ public class Snake implements Animatable {
         Vec2d position = parent.getPosition();
 
         for (int i = 0; i < numParts; i++) {
-            SnakeBody newBodyPart = new SnakeBody(position);
+            SnakeBody newBodyPart = new SnakeBody(this, position);
             body.add(newBodyPart);
         }
         Globals.getInstance().display.updateSnakeHeadDrawPosition(head);
     }
 
     public void changeHealth(int diff) {
-        health += diff;
+        health -= diff;
     }
 
     private void checkForGameOverConditions() {
@@ -122,5 +122,13 @@ public class Snake implements Animatable {
 
     public void setHealth(int health) {
         this.health = health;
+    }
+
+    public DelayedModificationList<GameEntity> getBody(){
+        return body;
+    }
+
+    public SnakeHead getHead() {
+        return head;
     }
 }
