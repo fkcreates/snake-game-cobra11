@@ -10,6 +10,8 @@ import com.codecool.snake.entities.powerups.SimplePowerUp;
 import com.sun.javafx.geom.Vec2d;
 import javafx.geometry.Point2D;
 
+import java.util.ArrayList;
+
 
 public class SnakeHead extends GameEntity implements Interactable {
     private static final float turnRate = 2;
@@ -51,7 +53,15 @@ public class SnakeHead extends GameEntity implements Interactable {
         if(entity instanceof SnakeBody){
             if(!snake.getBody().getList().contains(entity)){
                 snake.setHealth(0);
+                System.out.println("One snake died.");
             }
+        }
+        if(entity instanceof SnakeHead){
+            ArrayList<Snake> snakes = Globals.getInstance().game.getSnakes();
+            for(Snake snake: snakes){
+                snake.setHealth(0);
+            }
+            System.out.println("Both of the snakes died.");
         }
     }
 
