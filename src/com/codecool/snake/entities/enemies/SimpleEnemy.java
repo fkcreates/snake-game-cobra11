@@ -1,5 +1,4 @@
 package com.codecool.snake.entities.enemies;
-
 import com.codecool.snake.entities.GameEntity;
 import com.codecool.snake.Globals;
 import com.codecool.snake.entities.Animatable;
@@ -21,8 +20,9 @@ public class SimpleEnemy extends Enemy implements Animatable, Interactable {
 
     public SimpleEnemy() {
         super(10);
-        boolean cansSpwan;
-        if(!cansSpwan){
+        boolean cansSpwan = canSpawn();
+        if (!cansSpwan) {
+            Globals.getInstance().game.spawnEnemies(1);
             destroy();
         }
         setImage(Globals.getInstance().getImage("SimpleEnemy"));
@@ -33,8 +33,9 @@ public class SimpleEnemy extends Enemy implements Animatable, Interactable {
         double direction = rnd.nextDouble() * 360;
         setRotate(direction);
 
-        int speed = 1;
+        int speed = 0;
         heading = Utils.directionToVector(direction, speed);
+
     }
 
     @Override
@@ -50,7 +51,7 @@ public class SimpleEnemy extends Enemy implements Animatable, Interactable {
     public void apply(GameEntity entity) {
         if(entity instanceof SnakeHead){
             System.out.println(getMessage());
-            Globals.getInstance().game.spawnEn
+            Globals.getInstance().game.spawnEnemies(1);
             destroy();
 
         }
@@ -59,21 +60,5 @@ public class SimpleEnemy extends Enemy implements Animatable, Interactable {
     @Override
     public String getMessage() {
         return (getDamage() + " damage");
-    }
-
-    public boolean canSpawn(){
-        boolean canspawn = true;
-        List<GameEntity> gameObjs = Globals.getInstance().display.getObjectList();
-        for (int otherObjIdx = 0; otherObjIdx < gameObjs.size(); ++otherObjIdx) {
-            GameEntity otherObj = gameObjs.get(otherObjIdx);
-            if (otherObj instanceof Interactable) {
-                if (this.getBoundsInParent().intersects(otherObj.getBoundsInParent())) {
-                    canspawn = false;
-
-                }
-            }
-        }
-        return canspawn;
-
     }
 }

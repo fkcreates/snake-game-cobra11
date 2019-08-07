@@ -1,8 +1,11 @@
 package com.codecool.snake;
 
+import com.codecool.snake.entities.snakes.Snake;
 import com.codecool.snake.resources.Resources;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
+
+import java.util.ArrayList;
 
 // class for holding all static stuff
 public class Globals {
@@ -13,6 +16,8 @@ public class Globals {
 
     public Display display;
     public Game game;
+    public ArrayList<Snake> snakes;
+
 
     private GameLoop gameLoop;
     private Resources resources;

@@ -24,7 +24,11 @@ public class Snake implements Animatable {
         body = new DelayedModificationList<>();
         this.id = id;
 
-        addPart(4);
+        addPart(20);
+    }
+
+    public SnakeHead getHead() {
+        return head;
     }
 
     public void step() {

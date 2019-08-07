@@ -1,5 +1,7 @@
 package com.codecool.snake;
 
+import com.codecool.snake.entities.enemies.Bump;
+import com.codecool.snake.entities.enemies.Police;
 import com.codecool.snake.entities.enemies.SimpleEnemy;
 import com.codecool.snake.entities.powerups.SimplePowerUp;
 import com.codecool.snake.entities.snakes.Snake;
@@ -27,8 +29,9 @@ public class Game extends Pane {
 
     public void init() {
         spawnSnakes();
-        spawnEnemies(4);
+        spawnBumps(0);
         spawnPowerUps(4);
+        spawnPolice();
 
         GameLoop gameLoop = new GameLoop(snakes);
         Globals.getInstance().setGameLoop(gameLoop);
@@ -42,14 +45,23 @@ public class Game extends Pane {
     }
 
     private void spawnSnakes() {
-        for(int i = 1; i <= 2; i++){
+        for(int i = 1; i <= 1; i++){
             snakes.add(new Snake((new Vec2d(i * 100d, 600d)), i));
+            Globals.getInstance().snakes = snakes;
         }
     }
 
 
-    private void spawnEnemies(int numberOfEnemies) {
+    public void spawnEnemies(int numberOfEnemies) {
         for(int i = 0; i < numberOfEnemies; ++i) new SimpleEnemy();
+    }
+
+    public void spawnBumps(int numberOfBumps) {
+        for(int i = 0; i < numberOfBumps; ++i) new Bump();
+    }
+
+    public void spawnPolice(){
+        new Police();
     }
 
     private void spawnPowerUps(int numberOfPowerUps) {
