@@ -32,7 +32,11 @@ public class Globals {
         resources.addImage("SnakeBody", new Image("snake_body.png"));
         resources.addImage("SimpleEnemy", new Image("simple_enemy.png"));
         resources.addImage("PowerUpBerry", new Image("powerup_berry.png"));
-        resources.addImage("PowerUpChangeControl", new Image("powerup_switch.png"));
+        resources.addImage("PowerUpChangeControl", new Image("powerup_change_controls.png"));
+        resources.addImage("PowerUpClearChangeControl", new Image("powerup_clear_change_controls.png"));
+        resources.addImage("StopPowerUp", new Image("powerup_stop.png"));
+        resources.addImage("HealthPowerUp", new Image("powerup_medkit.png"));
+
     }
 
     public Image getImage(String name) { return resources.getImage(name); }

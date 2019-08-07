@@ -27,6 +27,6 @@ public class ChangeControlPowerUp extends GameEntity implements Interactable {
 
     @Override
     public String getMessage(){
-        return "Got changeControlPowerUp";
+        return "Got opposite snake controls changed";
     }
 }

@@ -5,11 +5,10 @@ import com.codecool.snake.Globals;
 import com.codecool.snake.Utils;
 import com.codecool.snake.entities.Interactable;
 import com.codecool.snake.entities.enemies.Enemy;
-import com.codecool.snake.entities.powerups.SimplePowerUp;
+import com.codecool.snake.entities.powerups.*;
 
 import com.sun.javafx.geom.Vec2d;
 import javafx.geometry.Point2D;
-
 
 public class SnakeHead extends GameEntity implements Interactable {
     private static final float turnRate = 2;
@@ -40,13 +39,46 @@ public class SnakeHead extends GameEntity implements Interactable {
 
     @Override
     public void apply(GameEntity entity) {
-        if(entity instanceof Enemy){
+        if (entity instanceof Enemy) {
             System.out.println(getMessage());
             snake.changeHealth(((Enemy) entity).getDamage());
         }
-        if(entity instanceof SimplePowerUp){
+        if (entity instanceof SimplePowerUp) {
             System.out.println(getMessage());
             snake.addPart(4);
+        }
+        if (entity instanceof ChangeControlPowerUp) {
+            int actualSnakeId = snake.getSnakeId();
+            if (actualSnakeId == 1) {
+                Snake oppositeSnake = Globals.getInstance().game.getSnakes().get(1);
+                oppositeSnake.setAreControlsChanging(true);
+            } else {
+                Snake oppositeSnake = Globals.getInstance().game.getSnakes().get(0);
+                oppositeSnake.setAreControlsChanging(true);
+            }
+        }
+        if (entity instanceof DismissChangeControlPowerUp) {
+            if (snake.getAreControlsChanging()) {
+                snake.setAreControlsChanging(false);
+            }
+        }
+        if (entity instanceof StopPowerUp) {
+            int actualSnakeId = snake.getSnakeId();
+            if (actualSnakeId == 1) {
+                Snake oppositeSnake = Globals.getInstance().game.getSnakes().get(1);
+                oppositeSnake.setSkipSteps(300);
+
+            } else {
+                Snake oppositeSnake = Globals.getInstance().game.getSnakes().get(0);
+                oppositeSnake.setSkipSteps(300);
+            }
+        }
+        if (entity instanceof HealthPowerUp) {
+            if (snake.getHealth() >= 90) {
+                snake.setHealth(100);
+            } else {
+                snake.changeHealth(10);
+            }
         }
     }
 
