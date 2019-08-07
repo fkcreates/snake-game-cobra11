@@ -92,6 +92,10 @@ public class Snake implements Animatable {
         this.health = health;
     }
 
+    public int getHealth() {
+        return this.health;
+    }
+
     public DelayedModificationList<GameEntity> getBody(){
         return body;
     }
