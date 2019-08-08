@@ -5,6 +5,7 @@ import com.codecool.snake.entities.Animatable;
 import com.codecool.snake.entities.Interactable;
 import com.codecool.snake.entities.snakes.Snake;
 
+import javax.swing.text.html.parser.Entity;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,9 +28,9 @@ public class GameLoop {
     }
 
     public void step() {
-        if(running) {
-            for (Snake snake: snakes) {
-                if(snake.getHealth() > 0) {
+        if (running) {
+            for (Snake snake : snakes) {
+                if (snake.getHealth() > 0) {
                     snake.step();
                 }
             }

@@ -13,8 +13,16 @@ public class HealthPowerUp extends GameEntity implements Interactable {
     public HealthPowerUp() {
         setImage(Globals.getInstance().getImage("HealthPowerUp"));
 
-        setX(rnd.nextDouble() * Globals.WINDOW_WIDTH);
-        setY(rnd.nextDouble() * Globals.WINDOW_HEIGHT);
+        double x = 0;
+        double y = 0;
+
+        while (x < 140 && y < 140) {
+            x = rnd.nextDouble() * Globals.WINDOW_WIDTH - 40;
+            y = rnd.nextDouble() * Globals.WINDOW_HEIGHT - 40;
+        }
+
+        setX(x);
+        setY(y);
     }
 
     @Override
@@ -22,6 +30,7 @@ public class HealthPowerUp extends GameEntity implements Interactable {
         if (entity instanceof SnakeHead) {
             System.out.println(getMessage());
             destroy();
+            Globals.getInstance().game.spawnPowerUps(1);
         }
     }
 

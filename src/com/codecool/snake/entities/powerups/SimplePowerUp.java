@@ -14,8 +14,16 @@ public class SimplePowerUp extends GameEntity implements Interactable {
     public SimplePowerUp() {
         setImage(Globals.getInstance().getImage("PowerUpBerry"));
 
-        setX(rnd.nextDouble() * Globals.WINDOW_WIDTH);
-        setY(rnd.nextDouble() * Globals.WINDOW_HEIGHT);
+        double x = 0;
+        double y = 0;
+
+        while (x < 150 && y < 150) {
+            x = rnd.nextDouble() * Globals.WINDOW_WIDTH - 40;
+            y = rnd.nextDouble() * Globals.WINDOW_HEIGHT - 40;
+        }
+
+        setX(x);
+        setY(y);
     }
 
     @Override
@@ -23,6 +31,7 @@ public class SimplePowerUp extends GameEntity implements Interactable {
         if (entity instanceof SnakeHead) {
             System.out.println(getMessage());
             destroy();
+            Globals.getInstance().game.spawnPowerUps(1);
         }
     }
 

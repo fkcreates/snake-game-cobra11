@@ -35,10 +35,10 @@ public class Snake implements Animatable {
             } else {
                 turnDir = getUserInput("A", "D", "LEFT", "RIGHT");
             }
+
             head.updateRotation(turnDir, speed);
 
             updateSnakeBodyHistory();
-            checkForGameOverConditions();
 
             body.doPendingModifications();
         } else {
@@ -76,13 +76,6 @@ public class Snake implements Animatable {
 
     public void changeHealth(int diff) {
         health -= diff;
-    }
-
-    private void checkForGameOverConditions() {
-        if (head.isOutOfBounds() || health <= 0) {
-            System.out.println("Game Over");
-            Globals.getInstance().stopGame();
-        }
     }
 
     private void updateSnakeBodyHistory() {

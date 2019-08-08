@@ -1,5 +1,6 @@
 package com.codecool.snake;
 
+import com.codecool.snake.entities.GameEntity;
 import com.codecool.snake.entities.enemies.SimpleEnemy;
 import com.codecool.snake.entities.powerups.*;
 import com.codecool.snake.entities.snakes.Snake;
@@ -12,7 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
-
+import java.util.Random;
 
 public class Game extends Pane {
     private ArrayList<Snake> snakes = new ArrayList<>();
@@ -29,7 +30,7 @@ public class Game extends Pane {
     public void init() {
         spawnSnakes();
         spawnEnemies(4);
-        spawnPowerUps(4);
+        spawnPowerUps(5);
 
         GameLoop gameLoop = new GameLoop(snakes);
         Globals.getInstance().setGameLoop(gameLoop);
@@ -43,22 +44,52 @@ public class Game extends Pane {
     }
 
     private void spawnSnakes() {
-        for(int i = 1; i <= 2; i++){
+        for (int i = 1; i <= 2; i++) {
             snakes.add(new Snake((new Vec2d(i * 100d, 600d)), i));
         }
     }
 
     private void spawnEnemies(int numberOfEnemies) {
-        for(int i = 0; i < numberOfEnemies; ++i) new SimpleEnemy();
+        for (int i = 0; i < numberOfEnemies; ++i) new SimpleEnemy();
     }
 
-    private void spawnPowerUps(int numberOfPowerUps) {
-        for(int i = 0; i < numberOfPowerUps; ++i) {
-            new ChangeControlPowerUp();
-            new SimplePowerUp();
-            new DismissChangeControlPowerUp();
-            new StopPowerUp();
-            new HealthPowerUp();
+    private boolean isSnakesControlsChanged() {
+        for (Snake snake : snakes) {
+            if (snake.getAreControlsChanging() && snake.getHealth() > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void spawnPowerUps(int numberOfPowerUps) {
+        Random rnd = new Random();
+
+        for (int i = 0; i < numberOfPowerUps; i++) {
+            int randomNumber = rnd.nextInt(100);
+            if (randomNumber < 10) {
+                if (isSnakesControlsChanged()) {
+                    new DismissChangeControlPowerUp();
+                } else {
+                    new SimplePowerUp();
+                }
+            } else if (randomNumber < 20) {
+                if (isBothSnakesControlsChanged()) {
+                    new DismissChangeControlPowerUp();
+                } else {
+                    new ChangeControlPowerUp();
+                }
+            } else if (randomNumber < 30) {
+                new HealthPowerUp();
+            } else if (randomNumber < 45) {
+                if (snakes.get(0).getHealth() > 0 && snakes.get(1).getHealth() > 0) {
+                    new StopPowerUp();
+                } else {
+                    new SimplePowerUp();
+                }
+            } else {
+                new SimplePowerUp();
+            }
         }
     }
 
@@ -82,8 +113,7 @@ public class Game extends Pane {
         });
     }
 
-
-    private void displayGameOverPage(){
+    private void displayGameOverPage() {
         Globals.getInstance().display.clear();
         displayScores();
         createRestartButton();
@@ -96,7 +126,7 @@ public class Game extends Pane {
         //FRUZSI
     }
 
-    public void restartGame(){
+    public void restartGame() {
         snakes.clear();
         Globals.getInstance().display.clear();
 
@@ -106,8 +136,8 @@ public class Game extends Pane {
 
     public void checkGameOver() {
         int counter = 0;
-        for(Snake snake: snakes) {
-            if (snake.getHead().isOutOfBounds()){
+        for (Snake snake : snakes) {
+            if (snake.getHead().isOutOfBounds()) {
                 snake.setHealth(0);
                 counter += 1;
             } else if (snake.getHealth() <= 0) {
@@ -118,5 +148,11 @@ public class Game extends Pane {
             Globals.getInstance().stopGame();
             displayGameOverPage();
         }
+    }
+
+    private boolean isBothSnakesControlsChanged() {
+        Snake snake1 = snakes.get(0);
+        Snake snake2 = snakes.get(1);
+        return snake1.getAreControlsChanging() && snake2.getAreControlsChanging();
     }
 }

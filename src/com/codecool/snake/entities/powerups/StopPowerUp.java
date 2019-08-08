@@ -10,18 +10,27 @@ import java.util.Random;
 public class StopPowerUp extends GameEntity implements Interactable {
     private static Random rnd = new Random();
 
-    public StopPowerUp(){
+    public StopPowerUp() {
         setImage(Globals.getInstance().getImage("StopPowerUp"));
 
-        setX(rnd.nextDouble() * Globals.WINDOW_WIDTH);
-        setY(rnd.nextDouble() * Globals.WINDOW_HEIGHT);
+        double x = 0;
+        double y = 0;
+
+        while (x < 140 && y < 140) {
+            x = rnd.nextDouble() * Globals.WINDOW_WIDTH - 40;
+            y = rnd.nextDouble() * Globals.WINDOW_HEIGHT - 40;
+        }
+
+        setX(x);
+        setY(y);
     }
 
     @Override
     public void apply(GameEntity entity) {
-        if(entity instanceof SnakeHead){
+        if (entity instanceof SnakeHead) {
             System.out.println(getMessage());
             destroy();
+            Globals.getInstance().game.spawnPowerUps(1);
         }
     }
 
