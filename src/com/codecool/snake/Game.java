@@ -1,6 +1,5 @@
 package com.codecool.snake;
 
-import com.codecool.snake.entities.GameEntity;
 import com.codecool.snake.entities.enemies.SimpleEnemy;
 import com.codecool.snake.entities.powerups.*;
 import com.codecool.snake.entities.snakes.Snake;
@@ -9,8 +8,9 @@ import com.codecool.snake.eventhandler.InputHandler;
 import com.sun.javafx.geom.Vec2d;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -31,6 +31,11 @@ public class Game extends Pane {
         spawnSnakes();
         spawnEnemies(4);
         spawnPowerUps(5);
+
+        new HealthBar("HealthBarForBlue", 10,10);
+        new HealthBar("HealthBarForPink",770,10);
+        Globals.getInstance().game.getSnakes().get(0).displayHealth(90,56,100,Color.BLUE);
+        Globals.getInstance().game.getSnakes().get(1).displayHealth(860,56,100,Color.PINK);
 
         GameLoop gameLoop = new GameLoop(snakes);
         Globals.getInstance().setGameLoop(gameLoop);
@@ -143,6 +148,7 @@ public class Game extends Pane {
             } else if (snake.getHealth() <= 0) {
                 counter += 1;
             }
+            snake.setSnakeHpText(snake.getHealth());
         }
         if (counter == 2) {
             Globals.getInstance().stopGame();

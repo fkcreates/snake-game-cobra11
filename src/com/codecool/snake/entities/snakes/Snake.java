@@ -8,7 +8,10 @@ import com.codecool.snake.eventhandler.InputHandler;
 
 import com.sun.javafx.geom.Vec2d;
 import javafx.scene.input.KeyCode;
-
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 public class Snake implements Animatable {
     private static final float speed = 2;
@@ -18,6 +21,8 @@ public class Snake implements Animatable {
     private DelayedModificationList<GameEntity> body;
     private boolean areControlsChanging;
     private int skipSteps;
+    private Text snakeHpText;
+
 
     public Snake(Vec2d position, int id) {
         head = new SnakeHead(this, position);
@@ -29,6 +34,7 @@ public class Snake implements Animatable {
 
     public void step() {
         SnakeControl turnDir;
+
         if (skipSteps == 0) {
             if (areControlsChanging) {
                 turnDir = getUserInput("D", "A", "RIGHT", "LEFT");
@@ -37,9 +43,7 @@ public class Snake implements Animatable {
             }
 
             head.updateRotation(turnDir, speed);
-
             updateSnakeBodyHistory();
-
             body.doPendingModifications();
         } else {
             skipSteps--;
@@ -123,5 +127,19 @@ public class Snake implements Animatable {
 
     public SnakeHead getHead() {
         return head;
+    }
+
+    public void displayHealth(double x, double y, int snakeHP, Color color) {
+        snakeHpText = new Text();
+        snakeHpText.setText(String.valueOf(snakeHP));
+        snakeHpText.setX(x);
+        snakeHpText.setY(y);
+        snakeHpText.setFill(color);
+        snakeHpText.setFont(Font.font("Verdana", FontWeight.BOLD, 45));
+        Globals.getInstance().display.add(snakeHpText);
+    }
+
+    public void setSnakeHpText(int snakeHp){
+        snakeHpText.setText(String.valueOf(snakeHp));
     }
 }

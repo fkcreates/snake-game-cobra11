@@ -8,6 +8,7 @@ import com.codecool.snake.entities.snakes.Snake;
 import javax.swing.text.html.parser.Entity;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ForkJoinPool;
 
 public class GameLoop {
 

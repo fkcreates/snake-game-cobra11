@@ -5,6 +5,7 @@ import java.util.List;
 
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 
 
 public class Display {
@@ -45,5 +46,9 @@ public class Display {
 
     public void add(Button restartButton) {
         displayPane.getChildren().add(restartButton);
+    }
+
+    public void add(Text text) {
+        displayPane.getChildren().add(text);
     }
 }
