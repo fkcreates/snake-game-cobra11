@@ -49,6 +49,10 @@ public class Police extends Enemy implements Animatable, Interactable {
         setRotate(direction);
     }
 
+    @Override
+    public int getDamage() {
+        return super.getDamage();
+    }
 
     @Override
     public void step() {

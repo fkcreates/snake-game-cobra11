@@ -56,15 +56,16 @@ public class SnakeHead extends GameEntity implements Interactable {
     @Override
     public void apply(GameEntity entity) {
         if (entity instanceof Enemy) {
-
-            if (entity == chaser) {
-                snake.changeHealth(30);
-                System.out.println("I damaged with 50");
-            }
-            else {
+            if (entity instanceof Police) {
+                if (entity.equals(chaser)) {
+                    snake.changeHealth(((Enemy) entity).getDamage());
+                }
+            } else {
                 snake.changeHealth(((Enemy) entity).getDamage());
             }
+
         }
+
         if (entity instanceof SimplePowerUp) {
 //            System.out.println(getMessage());
             snake.addPart(4);
@@ -92,11 +93,11 @@ public class SnakeHead extends GameEntity implements Interactable {
             int actualSnakeId = snake.getSnakeId();
             if (actualSnakeId == 1) {
                 Snake oppositeSnake = Globals.getInstance().game.getSnakes().get(1);
-                oppositeSnake.setSkipSteps(300);
+                oppositeSnake.setSkipSteps(100);
 
             } else {
                 Snake oppositeSnake = Globals.getInstance().game.getSnakes().get(0);
-                oppositeSnake.setSkipSteps(300);
+                oppositeSnake.setSkipSteps(100);
             }
         }
         if (entity instanceof HealthPowerUp) {
