@@ -18,10 +18,10 @@ public class Snake implements Animatable {
 
 
     private int id;
-
     private SnakeHead head;
     private DelayedModificationList<GameEntity> body;
-
+    private boolean areControlsChanging;
+    private int skipSteps;
 
     public Snake(Vec2d position, int id, int score, String headImageName, String bodyImageName) {
         head = new SnakeHead(this, position, headImageName);
@@ -33,32 +33,40 @@ public class Snake implements Animatable {
         this.score = score;
     }
 
-    public int getId() {
-        return id;
-    }
-
     public void step() {
-        SnakeControl turnDir = getUserInput();
-        head.updateRotation(turnDir, speed);
+        SnakeControl turnDir;
+        if (skipSteps == 0) {
+            if (areControlsChanging) {
+                turnDir = getUserInput("D", "A", "RIGHT", "LEFT");
+            } else {
+                turnDir = getUserInput("A", "D", "LEFT", "RIGHT");
+            }
 
-        updateSnakeBodyHistory();
+            head.updateRotation(turnDir, speed);
+            updateSnakeBodyHistory();
 
-        body.doPendingModifications();
+            body.doPendingModifications();
+        } else {
+            skipSteps--;
+        }
     }
 
-    private SnakeControl getUserInput() {
+    private SnakeControl getUserInput(String keyToGoLeftFor1, String keyToGoRightFor1, String keyToGoLeftFor2, String keyToGoRightFor2) {
         SnakeControl turnDir = SnakeControl.INVALID;
-        if(id == 1) {
-            if (InputHandler.getInstance().isKeyPressed(KeyCode.A)) turnDir = SnakeControl.TURN_LEFT;
-            if(InputHandler.getInstance().isKeyPressed(KeyCode.D)) turnDir = SnakeControl.TURN_RIGHT;
+        if (id == 1) {
+            if (InputHandler.getInstance().isKeyPressed(KeyCode.valueOf(keyToGoLeftFor1)))
+                turnDir = SnakeControl.TURN_LEFT;
+            if (InputHandler.getInstance().isKeyPressed(KeyCode.valueOf(keyToGoRightFor1)))
+                turnDir = SnakeControl.TURN_RIGHT;
         }
-        if(id == 2) {
-            if (InputHandler.getInstance().isKeyPressed(KeyCode.LEFT)) turnDir = SnakeControl.TURN_LEFT;
-            if(InputHandler.getInstance().isKeyPressed(KeyCode.RIGHT)) turnDir = SnakeControl.TURN_RIGHT;
+        if (id == 2) {
+            if (InputHandler.getInstance().isKeyPressed(KeyCode.valueOf(keyToGoLeftFor2)))
+                turnDir = SnakeControl.TURN_LEFT;
+            if (InputHandler.getInstance().isKeyPressed(KeyCode.valueOf(keyToGoRightFor2)))
+                turnDir = SnakeControl.TURN_RIGHT;
         }
         return turnDir;
     }
-
 
     public void addPart(int numParts, String bodyImageName) {
         GameEntity parent = getLastPart();
@@ -73,11 +81,13 @@ public class Snake implements Animatable {
 
     public void changeHealth(int diff) {
         health -= diff;
+        if (health <= 0)
+            this.getHead().getChaser().destroy();
     }
 
     private void updateSnakeBodyHistory() {
         GameEntity prev = head;
-        for(GameEntity currentPart : body.getList()) {
+        for (GameEntity currentPart : body.getList()) {
             currentPart.setPosition(prev.getPosition());
             prev = currentPart;
         }
@@ -86,16 +96,32 @@ public class Snake implements Animatable {
     private GameEntity getLastPart() {
         GameEntity result = body.getLast();
 
-        if(result != null) return result;
+        if (result != null) return result;
         return head;
+    }
+
+    public int getSnakeId() {
+        return id;
+    }
+
+    public boolean getAreControlsChanging() {
+        return areControlsChanging;
+    }
+
+    public void setAreControlsChanging(boolean isControlChanging) {
+        areControlsChanging = isControlChanging;
+    }
+
+    public void setSkipSteps(int skipSteps) {
+        this.skipSteps = skipSteps;
+    }
+
+    public int getHealth() {
+        return health;
     }
 
     public void setHealth(int health) {
         this.health = health;
-    }
-
-    public int getHealth() {
-        return this.health;
     }
 
     public DelayedModificationList<GameEntity> getBody(){
