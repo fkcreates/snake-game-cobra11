@@ -1,7 +1,7 @@
 package com.codecool.snake;
 
 import com.codecool.snake.entities.enemies.Bump;
-import com.codecool.snake.entities.enemies.Police;
+import com.codecool.snake.entities.enemies.Police1;
 import com.codecool.snake.entities.enemies.SimpleEnemy;
 import com.codecool.snake.entities.powerups.SimplePowerUp;
 import com.codecool.snake.entities.snakes.Snake;
@@ -61,7 +61,7 @@ public class Game extends Pane {
     }
 
     public void spawnPolice(){
-        new Police();
+        new Police1();
     }
 
     private void spawnPowerUps(int numberOfPowerUps) {
