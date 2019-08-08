@@ -87,6 +87,7 @@ public class Snake implements Animatable {
     public void changeHealth(int diff) {
         if ((health - diff) < 0) {
             health = 0;
+            this.getHead().getChaser().destroy();
         } else {
             health -= diff;
         }
