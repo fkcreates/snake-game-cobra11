@@ -12,19 +12,29 @@ import javafx.scene.input.KeyCode;
 
 public class Snake implements Animatable {
     private static final float speed = 2;
+    private int score;
     private int health = 100;
+    private String bodyImageName;
+
+
     private int id;
 
     private SnakeHead head;
     private DelayedModificationList<GameEntity> body;
 
 
-    public Snake(Vec2d position, int id) {
-        head = new SnakeHead(this, position);
+    public Snake(Vec2d position, int id, int score, String headImageName, String bodyImageName) {
+        head = new SnakeHead(this, position, headImageName);
         body = new DelayedModificationList<>();
+        this.bodyImageName = bodyImageName;
         this.id = id;
 
-        addPart(4);
+        addPart(4, bodyImageName);
+        this.score = score;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public void step() {
@@ -32,7 +42,6 @@ public class Snake implements Animatable {
         head.updateRotation(turnDir, speed);
 
         updateSnakeBodyHistory();
-        //checkForGameOverConditions();
 
         body.doPendingModifications();
     }
@@ -51,12 +60,12 @@ public class Snake implements Animatable {
     }
 
 
-    public void addPart(int numParts) {
+    public void addPart(int numParts, String bodyImageName) {
         GameEntity parent = getLastPart();
         Vec2d position = parent.getPosition();
 
         for (int i = 0; i < numParts; i++) {
-            SnakeBody newBodyPart = new SnakeBody(this, position);
+            SnakeBody newBodyPart = new SnakeBody(this, position, bodyImageName);
             body.add(newBodyPart);
         }
         Globals.getInstance().display.updateSnakeHeadDrawPosition(head);
@@ -65,13 +74,6 @@ public class Snake implements Animatable {
     public void changeHealth(int diff) {
         health -= diff;
     }
-
-    /*private void checkForGameOverConditions() {
-        if (head.isOutOfBounds() || health <= 0) {
-            System.out.println("Game Over");
-            Globals.getInstance().stopGame();
-        }
-    }*/
 
     private void updateSnakeBodyHistory() {
         GameEntity prev = head;
@@ -102,5 +104,17 @@ public class Snake implements Animatable {
 
     public SnakeHead getHead() {
         return head;
+    }
+
+    public void setScore(int score) {
+        this.score += score;
+    }
+
+    public int getScore(){
+        return this.score;
+    }
+
+    public String getBodyImageName() {
+        return bodyImageName;
     }
 }

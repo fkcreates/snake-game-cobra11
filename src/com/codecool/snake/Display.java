@@ -4,6 +4,7 @@ import com.codecool.snake.entities.GameEntity;
 import java.util.List;
 
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 
 
@@ -45,5 +46,9 @@ public class Display {
 
     public void add(Button restartButton) {
         displayPane.getChildren().add(restartButton);
+    }
+
+    public void add(Label label){
+        displayPane.getChildren().add(label);
     }
 }
