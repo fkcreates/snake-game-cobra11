@@ -6,6 +6,7 @@ import com.codecool.snake.entities.Interactable;
 import com.codecool.snake.entities.snakes.Snake;
 import com.codecool.snake.entities.snakes.SnakeHead;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -15,6 +16,8 @@ public abstract class Enemy extends GameEntity {
     private int speed = 1;
     private String Image;
     private static Random rnd = new Random();
+    ArrayList<SnakeHead> snakeHeads;
+
 
 
     public Enemy(int damage) {
@@ -28,7 +31,7 @@ public abstract class Enemy extends GameEntity {
 
     }
 
-    public double[] canSpawn(SnakeHead snakeHead) {
+    public double[] canSpawn() {
         double[] coordinates = new double[2];
 //        boolean canspawn = true;
 //        List<GameEntity> gameObjs = Globals.getInstance().display.getObjectList();
@@ -42,17 +45,21 @@ public abstract class Enemy extends GameEntity {
 //            }
 //        }
         //get snakhead coords
-        double[] snakeHeadPos = {snakeHead.getPosition().x, snakeHead.getPosition().y};
+
+        double[] snakeHead1Pos = {Globals.getInstance().snakes.get(0).getHead().getPosition().x, Globals.getInstance().snakes.get(0).getHead().getPosition().y };
+        double[] snakeHead2Pos = {Globals.getInstance().snakes.get(1).getHead().getPosition().x, Globals.getInstance().snakes.get(1).getHead().getPosition().y };
         double x;
         double y;
-        double distance;
+        double distanceFromSnake1;
+        double distanceFromSnake2;
         while (true) {
             x = (rnd.nextDouble() * Globals.WINDOW_WIDTH);
             y = (rnd.nextDouble() * Globals.WINDOW_HEIGHT);
             coordinates[0] = x;
             coordinates[1] = y;
-            distance = Math.sqrt((x - snakeHeadPos[0]) * (x - snakeHeadPos[0]) + (y - snakeHeadPos[1]) * (y - snakeHeadPos[1]));
-            if (distance > 100) {
+            distanceFromSnake1 = Math.sqrt((x - snakeHead1Pos[0]) * (x - snakeHead1Pos[0]) + (y - snakeHead1Pos[1]) * (y - snakeHead1Pos[1]));
+            distanceFromSnake2 = Math.sqrt((x - snakeHead2Pos[0]) * (x - snakeHead2Pos[0]) + (y - snakeHead2Pos[1]) * (y - snakeHead2Pos[1]));
+            if (distanceFromSnake1 > 100 && distanceFromSnake2 > 100 ) {
                 break;
             }
 

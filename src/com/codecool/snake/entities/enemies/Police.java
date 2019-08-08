@@ -11,6 +11,7 @@ import com.sun.javafx.geom.Vec2d;
 import javafx.geometry.Point2D;
 import javafx.scene.transform.Rotate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Vector;
@@ -27,6 +28,8 @@ public class Police extends Enemy implements Animatable, Interactable {
 
 
 
+
+
     public void setId(int id) {
         this.id = id;
     }
@@ -35,17 +38,13 @@ public class Police extends Enemy implements Animatable, Interactable {
         super(snakeToChase, Image,damage);
         snakeToChase = snakeToChase;
         snakeHead = snakeToChase.getHead();
-//        boolean canSpwan = canSpawn();
-//        System.out.println("I just spawned");
-//        if (!canSpwan){
-//            Globals.getInstance().game.spawnPolice();
-//            destroy();
-//        }
+        double possibleX ;
+        double possibleY ;
+        possibleX = canSpawn()[0];
+        possibleY = canSpawn()[1];
         setImage(Globals.getInstance().getImage(Image));
-//        setX(rnd.nextDouble() * Globals.WINDOW_WIDTH);
-//        setY(rnd.nextDouble() * Globals.WINDOW_HEIGHT);
-        setX(canSpawn(snakeHead)[0]);
-        setY(canSpawn(snakeHead)[1]);
+        setX(possibleX);
+        setY(possibleY);
         double direction = rnd.nextDouble() * 360;
         setRotate(direction);
     }
