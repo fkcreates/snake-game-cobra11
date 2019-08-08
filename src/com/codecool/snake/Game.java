@@ -39,7 +39,7 @@ public class Game extends Pane {
         spawnSnakes();
 
         spawnBumps(5);
-        spawnPowerUps(4);
+        spawnPowerUps(5);
         spawnPolice();
 
         new HealthBar("HealthBarForBlue", 10,10);
