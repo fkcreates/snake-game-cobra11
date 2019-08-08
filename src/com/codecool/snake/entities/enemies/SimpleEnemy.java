@@ -21,11 +21,11 @@ public class SimpleEnemy extends Enemy implements Animatable, Interactable {
 
     public SimpleEnemy() {
         super(10);
-        boolean cansSpwan = canSpawn();
-        if (!cansSpwan) {
-            Globals.getInstance().game.spawnEnemies(1);
-            destroy();
-        }
+//        boolean cansSpwan = canSpawn();
+//        if (!cansSpwan) {
+//            Globals.getInstance().game.spawnEnemies(1);
+//            destroy();
+//        }
         setImage(Globals.getInstance().getImage("SimpleEnemy"));
 
         setX(rnd.nextDouble() * Globals.WINDOW_WIDTH);

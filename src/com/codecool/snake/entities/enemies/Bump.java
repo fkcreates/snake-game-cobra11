@@ -20,10 +20,10 @@ public class Bump extends Enemy implements Animatable, Interactable {
 
     public Bump() {
         super(10);
-        boolean cansSpwan = canSpawn();
-        if (!cansSpwan) {
-            destroy();
-        } else {
+//        boolean cansSpwan = canSpawn();
+//        if (!cansSpwan) {
+//            destroy();
+//        } else {
             setImage(Globals.getInstance().getImage("SimpleEnemy"));
 
             setX(rnd.nextDouble() * Globals.WINDOW_WIDTH);
@@ -34,7 +34,7 @@ public class Bump extends Enemy implements Animatable, Interactable {
 
             int speed = 0;
             heading = Utils.directionToVector(direction, speed);
-        }
+//        }
     }
 
 

@@ -51,12 +51,14 @@ public class SnakeHead extends GameEntity implements Interactable {
         if (entity instanceof Enemy) {
             if (entity == chaser) {
                 snake.changeHealth(50);
+                System.out.println("I damaged with 50");
             }
-            System.out.println(getMessage());
-//            snake.changeHealth(((Enemy) entity).getDamage());
+            else {
+                snake.changeHealth(((Enemy) entity).getDamage());
+            }
         }
         if (entity instanceof SimplePowerUp) {
-            System.out.println(getMessage());
+//            System.out.println(getMessage());
             snake.addPart(4);
         }
         if (entity instanceof SnakeBody) {
@@ -66,18 +68,19 @@ public class SnakeHead extends GameEntity implements Interactable {
                 System.out.println("One snake died.");
             }
         }
-        if(entity instanceof SnakeHead){
+        if (entity instanceof SnakeHead) {
             ArrayList<Snake> snakes = Globals.getInstance().game.getSnakes();
-            for(Snake snake: snakes){
+            for (Snake snake : snakes) {
                 snake.setHealth(0);
             }
-            System.out.println("Both of the snakes died.");
+//            System.out.println("Both of the snakes died.");
         }
+        System.out.println(snake.getHealth());
     }
 
 
-        @Override
-        public String getMessage () {
-            return "IMMA SNAEK HED! SPITTIN' MAH WENOM! SPITJU-SPITJU!";
-        }
+    @Override
+    public String getMessage() {
+        return "";
     }
+}

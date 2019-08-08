@@ -21,6 +21,9 @@ public class Police extends Enemy implements Animatable, Interactable {
     private static Random rnd = new Random();
     private int speed = 1;
     private int id;
+    Snake snakeToChase;
+    SnakeHead snakeHead;
+
 
 
 
@@ -30,12 +33,14 @@ public class Police extends Enemy implements Animatable, Interactable {
 
     public Police(Snake snakeToChase, String Image, int damage) {
         super(snakeToChase, Image,damage);
-        boolean canSpwan = canSpawn();
-        System.out.println("I just spawned");
-        if (!canSpwan){
-            Globals.getInstance().game.spawnPolice(this.id);
-            destroy();
-        }
+        snakeToChase = snakeToChase;
+        snakeHead = snakeToChase.getHead();
+//        boolean canSpwan = canSpawn();
+//        System.out.println("I just spawned");
+//        if (!canSpwan){
+//            Globals.getInstance().game.spawnPolice();
+//            destroy();
+//        }
         setImage(Globals.getInstance().getImage(Image));
         setX(rnd.nextDouble() * Globals.WINDOW_WIDTH);
         setY(rnd.nextDouble() * Globals.WINDOW_HEIGHT);
@@ -55,7 +60,7 @@ public class Police extends Enemy implements Animatable, Interactable {
         double angle;
         angle = Math.toDegrees(Math.atan((this.getY()-snakePosY)/(this.getX()-snakePosX)));
         angle -=90;
-        System.out.println(angle);
+//        System.out.println(angle);
         double vectorMag = Math.sqrt((snakePosX - getX())*(snakePosX - getX()) +  (snakePosY - getY())*(snakePosY - getY()));
         setX(getX() + (snakePosX - getX())/vectorMag * this.speed);
         setY(getY() + (snakePosY - getY())/vectorMag * this.speed);
@@ -68,10 +73,15 @@ public class Police extends Enemy implements Animatable, Interactable {
 
     @Override
     public void apply(GameEntity entity) {
-        if (entity instanceof SnakeHead) {
-            System.out.println(getMessage());
+        if (entity == snakeHead) {
+//            System.out.println(getMessage());
 //            Globals.getInstance().game.spawnPolice();
 //            destroy();   random placement instead
+            setX(rnd.nextDouble() * Globals.WINDOW_WIDTH);
+            setY(rnd.nextDouble() * Globals.WINDOW_HEIGHT);
+            double direction = rnd.nextDouble() * 360;
+            setRotate(direction);
+
         }
     }
 

@@ -32,10 +32,9 @@ public class Game extends Pane {
 
     public void init() {
         spawnSnakes();
-        spawnBumps(0);
+        spawnBumps(5);
         spawnPowerUps(4);
-        spawnPolice(0);
-        spawnPolice(1);
+        spawnPolice();
 
         GameLoop gameLoop = new GameLoop(snakes);
         Globals.getInstance().setGameLoop(gameLoop);
@@ -65,16 +64,22 @@ public class Game extends Pane {
         for (int i = 0; i < numberOfBumps; ++i) new Bump();
     }
 
-    public void spawnPolice(int id) {
-        if (id == 0) {
-            polices.add(new Police(Globals.getInstance().snakes.get(0), "SnakeHead", 50));
-            snakes.get(0).getHead().setChaser(polices.get(0));
+    public void spawnPolice() {
+//        if (id == 0) {
+//            polices.add(new Police(Globals.getInstance().snakes.get(0), "SnakeHead", 50));
+//            snakes.get(0).getHead().setChaser(polices.get(0));
+//
+//        } else if(id == 1) {
+//            polices.add(new Police(Globals.getInstance().snakes.get(1), "SnakeHead", 50));
+//            snakes.get(1).getHead().setChaser(polices.get(1));
+//        }
+//        Globals.getInstance().polices = polices;
 
-        } else if(id == 1) {
-            polices.add(new Police(Globals.getInstance().snakes.get(1), "SnakeHead", 50));
-            snakes.get(1).getHead().setChaser(polices.get(1));
+        for (Snake snake : snakes) {
+            Police police = new Police(snake, "SnakeHead", 50);
+            polices.add(police);
+            snake.getHead().setChaser(police);
         }
-        Globals.getInstance().polices = polices;
 
 
 
