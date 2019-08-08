@@ -1,7 +1,7 @@
 package com.codecool.snake;
 
 import com.codecool.snake.entities.enemies.Bump;
-import com.codecool.snake.entities.enemies.Police1;
+import com.codecool.snake.entities.enemies.Police;
 import com.codecool.snake.entities.enemies.SimpleEnemy;
 import com.codecool.snake.entities.powerups.SimplePowerUp;
 import com.codecool.snake.entities.snakes.Snake;
@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class Game extends Pane {
     private ArrayList<Snake> snakes = new ArrayList<>();
     private GameTimer gameTimer = new GameTimer();
+    private ArrayList<Police> polices = new ArrayList<>();
 
 
     public Game() {
@@ -31,7 +32,8 @@ public class Game extends Pane {
         spawnSnakes();
         spawnBumps(0);
         spawnPowerUps(4);
-        spawnPolice();
+        spawnPolice(0);
+        spawnPolice(1);
 
         GameLoop gameLoop = new GameLoop(snakes);
         Globals.getInstance().setGameLoop(gameLoop);
@@ -45,7 +47,7 @@ public class Game extends Pane {
     }
 
     private void spawnSnakes() {
-        for(int i = 1; i <= 1; i++){
+        for (int i = 1; i <= 2; i++) {
             snakes.add(new Snake((new Vec2d(i * 100d, 600d)), i));
             Globals.getInstance().snakes = snakes;
         }
@@ -53,19 +55,28 @@ public class Game extends Pane {
 
 
     public void spawnEnemies(int numberOfEnemies) {
-        for(int i = 0; i < numberOfEnemies; ++i) new SimpleEnemy();
+        for (int i = 0; i < numberOfEnemies; ++i) new SimpleEnemy();
     }
 
     public void spawnBumps(int numberOfBumps) {
-        for(int i = 0; i < numberOfBumps; ++i) new Bump();
+        for (int i = 0; i < numberOfBumps; ++i) new Bump();
     }
 
-    public void spawnPolice(){
-        new Police1();
+    public void spawnPolice(int id) {
+        if (id == 0) {
+            polices.add(new Police(Globals.getInstance().snakes.get(0), "SnakeHead", 50));
+            snakes.get(0).getHead().setChaser(polices.get(0));
+
+        } else if(id == 1) {
+            polices.add(new Police(Globals.getInstance().snakes.get(1), "SnakeHead", 50));
+            snakes.get(1).getHead().setChaser(polices.get(1));
+        }
+        Globals.getInstance().polices = polices;
+
     }
 
     private void spawnPowerUps(int numberOfPowerUps) {
-        for(int i = 0; i < numberOfPowerUps; ++i) new SimplePowerUp();
+        for (int i = 0; i < numberOfPowerUps; ++i) new SimplePowerUp();
     }
 
     private void setupInputHandling() {

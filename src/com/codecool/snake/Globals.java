@@ -1,5 +1,6 @@
 package com.codecool.snake;
 
+import com.codecool.snake.entities.enemies.Police;
 import com.codecool.snake.entities.snakes.Snake;
 import com.codecool.snake.resources.Resources;
 import javafx.scene.image.Image;
@@ -17,6 +18,8 @@ public class Globals {
     public Display display;
     public Game game;
     public ArrayList<Snake> snakes;
+    public ArrayList<Police> polices;
+
 
 
     private GameLoop gameLoop;

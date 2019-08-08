@@ -15,47 +15,51 @@ import java.util.List;
 import java.util.Random;
 import java.util.Vector;
 
-public class Police1 extends Enemy implements Animatable, Interactable {
+public class Police extends Enemy implements Animatable, Interactable {
 
-    private Point2D heading;
+
     private static Random rnd = new Random();
+    private int speed = 1;
+    private int id;
 
-    public Police1() {
-        super(10);
+
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Police(Snake snakeToChase, String Image, int damage) {
+        super(snakeToChase, Image,damage);
         boolean canSpwan = canSpawn();
         System.out.println("I just spawned");
         if (!canSpwan){
-            Globals.getInstance().game.spawnPolice();
+            Globals.getInstance().game.spawnPolice(this.id);
             destroy();
         }
-        setImage(Globals.getInstance().getImage("SnakeHead"));
+        setImage(Globals.getInstance().getImage(Image));
         setX(rnd.nextDouble() * Globals.WINDOW_WIDTH);
         setY(rnd.nextDouble() * Globals.WINDOW_HEIGHT);
-
         double direction = rnd.nextDouble() * 360;
         setRotate(direction);
-
-        int speed = 0;
-        heading = Utils.directionToVector(direction, speed);
     }
 
 
     @Override
     public void step() {
-        double snake1posX;
-        double snake1posY;
-        snake1posX = Globals.getInstance().snakes.get(0).getHead().getPosition().x;
-        snake1posY = Globals.getInstance().snakes.get(0).getHead().getPosition().y;
+        double snakePosX;
+        double snakePosY;
+//        snakePosX = Globals.getInstance().snakes.get(0).getHead().getPosition().x;
+//        snakePosY = Globals.getInstance().snakes.get(0).getHead().getPosition().y;
+        snakePosX = snake.getHead().getPosition().x;
+        snakePosY = snake.getHead().getPosition().y;
         double angle;
-        angle = Math.toDegrees(Math.atan((this.getY()-snake1posY)/(this.getX()-snake1posX)));
+        angle = Math.toDegrees(Math.atan((this.getY()-snakePosY)/(this.getX()-snakePosX)));
         angle -=90;
-//        angle = Math.toDegrees(Math.atan(snake1posY - getY())/(snake1posX - getX()));
-        heading = Utils.directionToVector(angle, 1);
         System.out.println(angle);
-        double vectorMag = Math.sqrt((snake1posX - getX())*(snake1posX - getX()) +  (snake1posY - getY())*(snake1posY - getY()));
-        setX(getX() + (snake1posX - getX())/vectorMag);
-        setY(getY() + (snake1posY - getY())/vectorMag);
-        if(snake1posX - getX() > 0){
+        double vectorMag = Math.sqrt((snakePosX - getX())*(snakePosX - getX()) +  (snakePosY - getY())*(snakePosY - getY()));
+        setX(getX() + (snakePosX - getX())/vectorMag * this.speed);
+        setY(getY() + (snakePosY - getY())/vectorMag * this.speed);
+        if(snakePosX - getX() > 0){
             angle += 180;
         }
         setRotate(angle);
@@ -66,8 +70,8 @@ public class Police1 extends Enemy implements Animatable, Interactable {
     public void apply(GameEntity entity) {
         if (entity instanceof SnakeHead) {
             System.out.println(getMessage());
-            Globals.getInstance().game.spawnPolice();
-            destroy();
+//            Globals.getInstance().game.spawnPolice();
+//            destroy();   random placement instead
         }
     }
 
