@@ -99,7 +99,7 @@ public class SnakeHead extends GameEntity implements Interactable {
             if (snake.getHealth() >= 90) {
                 snake.setHealth(100);
             } else {
-                snake.changeHealth(10);
+                snake.changeHealth(-10);
             }
         }
         if (entity instanceof SnakeBody) {

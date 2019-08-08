@@ -98,7 +98,7 @@ public class Game extends Pane {
                 if (isSnakesControlsChanged()) {
                     new DismissChangeControlPowerUp();
                 } else {
-                    new SimplePowerUp();
+                    new HealthPowerUp();
                 }
             } else if (randomNumber < 20) {
                 if (isBothSnakesControlsChanged()) {
