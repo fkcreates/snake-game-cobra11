@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import com.codecool.snake.entities.Interactable;
+import com.codecool.snake.entities.enemies.SimpleEnemy;
 import com.sun.javafx.geom.Vec2d;
 
 
@@ -13,7 +14,7 @@ public class SnakeBody extends GameEntity implements Interactable {
     private Queue<Vec2d> history = new LinkedList<>();
     private static final int historySize = 10;
 
-    public SnakeBody(Vec2d coord) {
+    public SnakeBody(Snake snake,Vec2d coord) {
         setImage(Globals.getInstance().getImage("SnakeBody"));
         setX(coord.x);
         setY(coord.y);
@@ -33,7 +34,6 @@ public class SnakeBody extends GameEntity implements Interactable {
 
     @Override
     public void apply(GameEntity entity) {
-
     }
 
     @Override

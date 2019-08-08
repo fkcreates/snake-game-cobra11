@@ -9,6 +9,8 @@ import com.codecool.snake.eventhandler.InputHandler;
 
 import com.sun.javafx.geom.Vec2d;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
@@ -54,6 +56,7 @@ public class Game extends Pane {
     }
 
 
+
     public void spawnEnemies(int numberOfEnemies) {
         for (int i = 0; i < numberOfEnemies; ++i) new SimpleEnemy();
     }
@@ -73,6 +76,8 @@ public class Game extends Pane {
         }
         Globals.getInstance().polices = polices;
 
+
+
     }
 
     private void spawnPowerUps(int numberOfPowerUps) {
@@ -84,4 +89,57 @@ public class Game extends Pane {
         scene.setOnKeyPressed(event -> InputHandler.getInstance().setKeyPressed(event.getCode()));
         scene.setOnKeyReleased(event -> InputHandler.getInstance().setKeyReleased(event.getCode()));
     }
+
+    public ArrayList<Snake> getSnakes() {
+        return snakes;
+    }
+
+    private void createRestartButton() {
+        Button restartButton = new Button("RESTART");
+        restartButton.setLayoutX(500);
+        restartButton.setLayoutY(350);
+        Globals.getInstance().display.add(restartButton);
+        restartButton.setOnMouseClicked(event -> {
+            restartGame();
+        });
+    }
+
+
+    private void displayGameOverPage(){
+        Globals.getInstance().display.clear();
+        displayScores();
+        createRestartButton();
+    }
+
+    private void displayScores() {
+        //TODO
+        //ide jon a score (snake hossz) kiiras, meg hogy ki nyert
+        //javafx fincsiseg
+        //FRUZSI
+    }
+
+    public void restartGame(){
+        snakes.clear();
+        Globals.getInstance().display.clear();
+
+        init();
+        start();
+    }
+
+    public void checkGameOver() {
+        int counter = 0;
+        for(Snake snake: snakes) {
+            if (snake.getHead().isOutOfBounds()){
+                snake.setHealth(0);
+                counter += 1;
+            } else if (snake.getHealth() <= 0) {
+                counter += 1;
+            }
+        }
+        if (counter == 2) {
+            Globals.getInstance().stopGame();
+            displayGameOverPage();
+        }
+    }
+
 }
