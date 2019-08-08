@@ -153,7 +153,6 @@ public class Game extends Pane {
         Font myFont = new Font("Chalkboard", 25);
 
         Label score1 = new Label("Player 1, your score is: " + snakes.get(0).getScore());
-        //score1.setStyle("-fx-fill: #3B529D");
         score1.setStyle("-fx-text-fill: #3B529D");
         score1.setLayoutX(350);
         score1.setLayoutY(100);
