@@ -47,7 +47,7 @@ public class Globals {
         resources.addImage("HealthPowerUp", new Image("powerup_medkit.png"));
         resources.addImage("HealthBarForBlue", new Image("HP_bar_for_blue.png"));
         resources.addImage("HealthBarForPink", new Image("HP_bar_for_pink.png"));
-        resources.addImage("Police", new Image("police.png"));
+        resources.addImage("Police", new Image("police1.png"));
         resources.addImage("Bump", new Image("bump.png"));
     }
 
