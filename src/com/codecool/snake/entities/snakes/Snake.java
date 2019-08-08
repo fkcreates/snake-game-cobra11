@@ -15,7 +15,11 @@ import javafx.scene.text.Text;
 
 public class Snake implements Animatable {
     private static final float speed = 2;
+    private int score;
     private int health = 100;
+    private String bodyImageName;
+
+
     private int id;
     private SnakeHead head;
     private DelayedModificationList<GameEntity> body;
@@ -24,12 +28,14 @@ public class Snake implements Animatable {
     private Text snakeHpText;
 
 
-    public Snake(Vec2d position, int id) {
-        head = new SnakeHead(this, position);
+    public Snake(Vec2d position, int id, int score, String headImageName, String bodyImageName) {
+        head = new SnakeHead(this, position, headImageName);
         body = new DelayedModificationList<>();
+        this.bodyImageName = bodyImageName;
         this.id = id;
 
-        addPart(4);
+        addPart(4, bodyImageName);
+        this.score = score;
     }
 
     public void step() {
@@ -67,19 +73,23 @@ public class Snake implements Animatable {
         return turnDir;
     }
 
-    public void addPart(int numParts) {
+    public void addPart(int numParts, String bodyImageName) {
         GameEntity parent = getLastPart();
         Vec2d position = parent.getPosition();
 
         for (int i = 0; i < numParts; i++) {
-            SnakeBody newBodyPart = new SnakeBody(this, position);
+            SnakeBody newBodyPart = new SnakeBody(this, position, bodyImageName);
             body.add(newBodyPart);
         }
         Globals.getInstance().display.updateSnakeHeadDrawPosition(head);
     }
 
     public void changeHealth(int diff) {
-        health -= diff;
+        if ((health - diff) < 0) {
+            health = 0;
+        } else {
+            health -= diff;
+        }
     }
 
     private void updateSnakeBodyHistory() {
@@ -121,7 +131,7 @@ public class Snake implements Animatable {
         this.health = health;
     }
 
-    public DelayedModificationList<GameEntity> getBody(){
+    public DelayedModificationList<GameEntity> getBody() {
         return body;
     }
 
@@ -139,7 +149,19 @@ public class Snake implements Animatable {
         Globals.getInstance().display.add(snakeHpText);
     }
 
-    public void setSnakeHpText(int snakeHp){
+    public void setSnakeHpText(int snakeHp) {
         snakeHpText.setText(String.valueOf(snakeHp));
+    }
+
+    public void setScore(int score) {
+        this.score += score;
+    }
+
+    public int getScore() {
+        return this.score;
+    }
+
+    public String getBodyImageName() {
+        return bodyImageName;
     }
 }

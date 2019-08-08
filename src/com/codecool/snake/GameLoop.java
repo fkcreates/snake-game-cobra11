@@ -29,9 +29,11 @@ public class GameLoop {
     }
 
     public void step() {
-        if (running) {
-            for (Snake snake : snakes) {
-                if (snake.getHealth() > 0) {
+
+        if(running) {
+            for (Snake snake: snakes) {
+                Globals.getInstance().game.checkGameOver();
+                if(snake.getHealth() > 0) {
                     snake.step();
                 }
             }

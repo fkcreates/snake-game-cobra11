@@ -1,5 +1,10 @@
 package com.codecool.snake;
 
+
+import com.codecool.snake.entities.enemies.Bump;
+import com.codecool.snake.entities.enemies.Police;
+
+import com.codecool.snake.entities.GameEntity;
 import com.codecool.snake.entities.enemies.SimpleEnemy;
 import com.codecool.snake.entities.powerups.*;
 import com.codecool.snake.entities.snakes.Snake;
@@ -9,15 +14,18 @@ import com.sun.javafx.geom.Vec2d;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
-
 import javafx.scene.paint.Color;
-
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import java.util.ArrayList;
+import javafx.scene.text.Font;
 import java.util.Random;
 
 public class Game extends Pane {
     private ArrayList<Snake> snakes = new ArrayList<>();
     private GameTimer gameTimer = new GameTimer();
+    private ArrayList<Police> polices = new ArrayList<>();
 
     public Game() {
         Globals.getInstance().game = this;
@@ -29,8 +37,10 @@ public class Game extends Pane {
 
     public void init() {
         spawnSnakes();
-        spawnEnemies(4);
-        spawnPowerUps(5);
+
+        spawnBumps(5);
+        spawnPowerUps(4);
+        spawnPolice();
 
         new HealthBar("HealthBarForBlue", 10,10);
         new HealthBar("HealthBarForPink",770,10);
@@ -49,12 +59,24 @@ public class Game extends Pane {
     }
 
     private void spawnSnakes() {
-        for (int i = 1; i <= 2; i++) {
-            snakes.add(new Snake((new Vec2d(i * 100d, 600d)), i));
+        snakes.add(new Snake((new Vec2d(100d, 600d)), 1, 4, "SnakeHead1", "SnakeBody1"));
+        snakes.add(new Snake((new Vec2d(700d, 600d)), 2, 4, "SnakeHead2", "SnakeBody2"));
+    }
+
+    public void spawnBumps(int numberOfBumps) {
+        for (int i = 0; i < numberOfBumps; ++i) new Bump();
+    }
+
+    public void spawnPolice() {
+        for (Snake snake : snakes) {
+            Police police = new Police(snake, "Police", 30);
+            System.out.println(snake);
+            polices.add(police);
+            snake.getHead().setChaser(police);
         }
     }
 
-    private void spawnEnemies(int numberOfEnemies) {
+    public void spawnEnemies(int numberOfEnemies) {
         for (int i = 0; i < numberOfEnemies; ++i) new SimpleEnemy();
     }
 
@@ -110,8 +132,11 @@ public class Game extends Pane {
 
     private void createRestartButton() {
         Button restartButton = new Button("RESTART");
-        restartButton.setLayoutX(500);
-        restartButton.setLayoutY(350);
+        restartButton.setLayoutX(425);
+        restartButton.setLayoutY(340);
+        restartButton.setPrefSize(150, 60);
+        restartButton.setStyle("-fx-font-family: 'Chalkboard'; -fx-background-color: #65A655; -fx-font-size: 20px");
+
         Globals.getInstance().display.add(restartButton);
         restartButton.setOnMouseClicked(event -> {
             restartGame();
@@ -125,10 +150,39 @@ public class Game extends Pane {
     }
 
     private void displayScores() {
-        //TODO
-        //ide jon a score (snake hossz) kiiras, meg hogy ki nyert
-        //javafx fincsiseg
-        //FRUZSI
+        Font myFont = new Font("Chalkboard", 25);
+
+        Label score1 = new Label("Player 1, your score is: " + snakes.get(0).getScore());
+        //score1.setStyle("-fx-fill: #3B529D");
+        score1.setStyle("-fx-text-fill: #3B529D");
+        score1.setLayoutX(350);
+        score1.setLayoutY(100);
+        score1.setFont(myFont);
+
+        Label score2 = new Label("Player 2, your score is: " + snakes.get(1).getScore());
+        score2.setStyle("-fx-text-fill: #E976CA");
+        score2.setLayoutX(350);
+        score2.setLayoutY(150);
+        score2.setFont(myFont);
+
+        Label winnerLabel;
+
+        if(snakes.get(0).getScore() > snakes.get(1).getScore()){
+            winnerLabel = new Label("The winner is: Player 1");
+        } else if (snakes.get(0).getScore() < snakes.get(1).getScore()){
+            winnerLabel = new Label("The winner is: Player 2");
+        } else {
+            winnerLabel = new Label("This is a tie. Everybody wins!");
+        }
+
+        winnerLabel.setStyle("-fx-text-fill: #65A655");
+        winnerLabel.setLayoutX(350);
+        winnerLabel.setLayoutY(250);
+        winnerLabel.setFont(myFont);
+
+        Globals.getInstance().display.add(score1);
+        Globals.getInstance().display.add(score2);
+        Globals.getInstance().display.add(winnerLabel);
     }
 
     public void restartGame() {
@@ -154,6 +208,12 @@ public class Game extends Pane {
             Globals.getInstance().stopGame();
             displayGameOverPage();
         }
+    }
+
+    public void setTableBackground(Image tableBackground) {
+        setBackground(new Background(new BackgroundImage(tableBackground,
+                BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT,
+                BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
     }
 
     private boolean isBothSnakesControlsChanged() {

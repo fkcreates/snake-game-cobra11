@@ -5,7 +5,12 @@ import com.codecool.snake.Globals;
 import com.codecool.snake.Utils;
 import com.codecool.snake.entities.Interactable;
 import com.codecool.snake.entities.enemies.Enemy;
+
+import com.codecool.snake.entities.enemies.Police;
+import com.codecool.snake.entities.powerups.SimplePowerUp;
+
 import com.codecool.snake.entities.powerups.*;
+
 
 import com.sun.javafx.geom.Vec2d;
 import javafx.geometry.Point2D;
@@ -15,10 +20,19 @@ import java.util.ArrayList;
 public class SnakeHead extends GameEntity implements Interactable {
     private static final float turnRate = 2;
     private Snake snake;
+    private Police chaser;
 
-    public SnakeHead(Snake snake, Vec2d position) {
+    public void setChaser(Police chaser) {
+        this.chaser = chaser;
+    }
+
+    public Police getChaser() {
+        return chaser;
+    }
+
+    public SnakeHead(Snake snake, Vec2d position, String imageName) {
         this.snake = snake;
-        setImage(Globals.getInstance().getImage("SnakeHead"));
+        setImage(Globals.getInstance().getImage(imageName));
         setPosition(position);
     }
 
@@ -42,12 +56,18 @@ public class SnakeHead extends GameEntity implements Interactable {
     @Override
     public void apply(GameEntity entity) {
         if (entity instanceof Enemy) {
-            System.out.println(getMessage());
-            snake.changeHealth(((Enemy) entity).getDamage());
+            if (entity instanceof Police) {
+                if (entity.equals(chaser)) {
+                    snake.changeHealth(((Enemy) entity).getDamage());
+                }
+            } else {
+                snake.changeHealth(((Enemy) entity).getDamage());
+            }
         }
         if (entity instanceof SimplePowerUp) {
             System.out.println(getMessage());
-            snake.addPart(4);
+            snake.addPart(4, snake.getBodyImageName());
+            snake.setScore(4);
         }
         if (entity instanceof ChangeControlPowerUp) {
             int actualSnakeId = snake.getSnakeId();
@@ -68,11 +88,11 @@ public class SnakeHead extends GameEntity implements Interactable {
             int actualSnakeId = snake.getSnakeId();
             if (actualSnakeId == 1) {
                 Snake oppositeSnake = Globals.getInstance().game.getSnakes().get(1);
-                oppositeSnake.setSkipSteps(300);
+                oppositeSnake.setSkipSteps(100);
 
             } else {
                 Snake oppositeSnake = Globals.getInstance().game.getSnakes().get(0);
-                oppositeSnake.setSkipSteps(300);
+                oppositeSnake.setSkipSteps(100);
             }
         }
         if (entity instanceof HealthPowerUp) {
@@ -85,8 +105,6 @@ public class SnakeHead extends GameEntity implements Interactable {
         if (entity instanceof SnakeBody) {
             if (!snake.getBody().getList().contains(entity)) {
                 snake.setHealth(0);
-
-                System.out.println("One snake died.");
             }
         }
         if (entity instanceof SnakeHead) {
@@ -94,12 +112,12 @@ public class SnakeHead extends GameEntity implements Interactable {
             for (Snake snake : snakes) {
                 snake.setHealth(0);
             }
-            System.out.println("Both of the snakes died.");
         }
     }
 
+
     @Override
     public String getMessage() {
-        return "IMMA SNAEK HED! SPITTIN' MAH WENOM! SPITJU-SPITJU!";
+        return "";
     }
 }
