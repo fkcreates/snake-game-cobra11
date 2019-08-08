@@ -4,7 +4,6 @@ import com.codecool.snake.entities.enemies.Police;
 import com.codecool.snake.entities.snakes.Snake;
 import com.codecool.snake.resources.Resources;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 
@@ -41,6 +40,11 @@ public class Globals {
         resources.addImage("SnakeBody", new Image("snake_body.png"));
         resources.addImage("SimpleEnemy", new Image("simple_enemy.png"));
         resources.addImage("PowerUpBerry", new Image("powerup_berry.png"));
+        resources.addImage("PowerUpChangeControl", new Image("powerup_change_controls.png"));
+        resources.addImage("PowerUpClearChangeControl", new Image("powerup_clear_change_controls.png"));
+        resources.addImage("StopPowerUp", new Image("powerup_stop.png"));
+        resources.addImage("HealthPowerUp", new Image("powerup_medkit.png"));
+
     }
 
     public Image getImage(String name) { return resources.getImage(name); }

@@ -1,23 +1,22 @@
 package com.codecool.snake.entities.powerups;
 
-import com.codecool.snake.entities.GameEntity;
 import com.codecool.snake.Globals;
+import com.codecool.snake.entities.GameEntity;
 import com.codecool.snake.entities.Interactable;
 import com.codecool.snake.entities.snakes.SnakeHead;
 
 import java.util.Random;
 
-
-public class SimplePowerUp extends GameEntity implements Interactable {
+public class DismissChangeControlPowerUp extends GameEntity implements Interactable {
     private static Random rnd = new Random();
 
-    public SimplePowerUp() {
-        setImage(Globals.getInstance().getImage("PowerUpBerry"));
+    public DismissChangeControlPowerUp() {
+        setImage(Globals.getInstance().getImage("PowerUpClearChangeControl"));
 
         double x = 0;
         double y = 0;
 
-        while (x < 150 && y < 150) {
+        while (x < 140 && y < 140) {
             x = rnd.nextDouble() * Globals.WINDOW_WIDTH - 40;
             y = rnd.nextDouble() * Globals.WINDOW_HEIGHT - 40;
         }
@@ -37,6 +36,7 @@ public class SimplePowerUp extends GameEntity implements Interactable {
 
     @Override
     public String getMessage() {
-        return "Got power-up :)";
+        return "Got my controls cleared!";
     }
+
 }

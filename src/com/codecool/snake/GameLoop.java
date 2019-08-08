@@ -5,6 +5,7 @@ import com.codecool.snake.entities.Animatable;
 import com.codecool.snake.entities.Interactable;
 import com.codecool.snake.entities.snakes.Snake;
 
+import javax.swing.text.html.parser.Entity;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,9 +28,9 @@ public class GameLoop {
     }
 
     public void step() {
-        if(running) {
-            for (Snake snake: snakes) {
-                if(snake.getHealth() > 0) {
+        if (running) {
+            for (Snake snake : snakes) {
+                if (snake.getHealth() > 0) {
                     snake.step();
                 }
             }
@@ -41,7 +42,6 @@ public class GameLoop {
             checkCollisions();
             Globals.getInstance().game.checkGameOver();
         }
-
         Globals.getInstance().display.frameFinished();
     }
 
@@ -52,8 +52,8 @@ public class GameLoop {
             if (objToCheck instanceof Interactable) {
                 for (int otherObjIdx = idxToCheck + 1; otherObjIdx < gameObjs.size(); ++otherObjIdx) {
                     GameEntity otherObj = gameObjs.get(otherObjIdx);
-                    if (otherObj instanceof Interactable){
-                        if(objToCheck.getBoundsInParent().intersects(otherObj.getBoundsInParent())){
+                    if (otherObj instanceof Interactable) {
+                        if (objToCheck.getBoundsInParent().intersects(otherObj.getBoundsInParent())) {
                             ((Interactable) objToCheck).apply(otherObj);
                             ((Interactable) otherObj).apply(objToCheck);
                         }

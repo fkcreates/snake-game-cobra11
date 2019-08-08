@@ -69,11 +69,16 @@ public class Police extends Enemy implements Animatable, Interactable {
             angle += 180;
         }
         setRotate(angle);
+//        if(this.snakeToChase.getHealth() <= 0){
+//            destroy();
+//        }
+//        System.out.println(snakeToChase);
     }
 
 
     @Override
     public void apply(GameEntity entity) {
+
         if (entity == snakeHead) {
 //            System.out.println(getMessage());
 //            Globals.getInstance().game.spawnPolice();
@@ -82,8 +87,8 @@ public class Police extends Enemy implements Animatable, Interactable {
             setY(rnd.nextDouble() * Globals.WINDOW_HEIGHT);
             double direction = rnd.nextDouble() * 360;
             setRotate(direction);
-
         }
+
     }
 
     @Override

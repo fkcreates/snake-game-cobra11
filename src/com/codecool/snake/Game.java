@@ -1,9 +1,12 @@
 package com.codecool.snake;
 
+
 import com.codecool.snake.entities.enemies.Bump;
 import com.codecool.snake.entities.enemies.Police;
+
+import com.codecool.snake.entities.GameEntity;
 import com.codecool.snake.entities.enemies.SimpleEnemy;
-import com.codecool.snake.entities.powerups.SimplePowerUp;
+import com.codecool.snake.entities.powerups.*;
 import com.codecool.snake.entities.snakes.Snake;
 import com.codecool.snake.eventhandler.InputHandler;
 
@@ -14,13 +17,12 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
-
+import java.util.Random;
 
 public class Game extends Pane {
     private ArrayList<Snake> snakes = new ArrayList<>();
     private GameTimer gameTimer = new GameTimer();
     private ArrayList<Police> polices = new ArrayList<>();
-
 
     public Game() {
         Globals.getInstance().game = this;
@@ -32,9 +34,14 @@ public class Game extends Pane {
 
     public void init() {
         spawnSnakes();
+
         spawnBumps(5);
         spawnPowerUps(4);
         spawnPolice();
+
+//        spawnEnemies(4);
+
+
 
         GameLoop gameLoop = new GameLoop(snakes);
         Globals.getInstance().setGameLoop(gameLoop);
@@ -56,37 +63,64 @@ public class Game extends Pane {
 
 
 
-    public void spawnEnemies(int numberOfEnemies) {
-        for (int i = 0; i < numberOfEnemies; ++i) new SimpleEnemy();
-    }
-
     public void spawnBumps(int numberOfBumps) {
         for (int i = 0; i < numberOfBumps; ++i) new Bump();
     }
 
     public void spawnPolice() {
-//        if (id == 0) {
-//            polices.add(new Police(Globals.getInstance().snakes.get(0), "SnakeHead", 50));
-//            snakes.get(0).getHead().setChaser(polices.get(0));
-//
-//        } else if(id == 1) {
-//            polices.add(new Police(Globals.getInstance().snakes.get(1), "SnakeHead", 50));
-//            snakes.get(1).getHead().setChaser(polices.get(1));
-//        }
-//        Globals.getInstance().polices = polices;
-
         for (Snake snake : snakes) {
             Police police = new Police(snake, "SnakeHead", 50);
+            System.out.println(snake);
             polices.add(police);
             snake.getHead().setChaser(police);
         }
-
-
-
     }
 
-    private void spawnPowerUps(int numberOfPowerUps) {
-        for (int i = 0; i < numberOfPowerUps; ++i) new SimplePowerUp();
+
+
+    public void spawnEnemies(int numberOfEnemies) {
+        for (int i = 0; i < numberOfEnemies; ++i) new SimpleEnemy();
+    }
+
+    private boolean isSnakesControlsChanged() {
+        for (Snake snake : snakes) {
+            if (snake.getAreControlsChanging() && snake.getHealth() > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void spawnPowerUps(int numberOfPowerUps) {
+        Random rnd = new Random();
+
+        for (int i = 0; i < numberOfPowerUps; i++) {
+            int randomNumber = rnd.nextInt(100);
+            if (randomNumber < 10) {
+                if (isSnakesControlsChanged()) {
+                    new DismissChangeControlPowerUp();
+                } else {
+                    new SimplePowerUp();
+                }
+            } else if (randomNumber < 20) {
+                if (isBothSnakesControlsChanged()) {
+                    new DismissChangeControlPowerUp();
+                } else {
+                    new ChangeControlPowerUp();
+                }
+            } else if (randomNumber < 30) {
+                new HealthPowerUp();
+            } else if (randomNumber < 45) {
+                if (snakes.get(0).getHealth() > 0 && snakes.get(1).getHealth() > 0) {
+                    new StopPowerUp();
+                } else {
+                    new SimplePowerUp();
+                }
+            } else {
+                new SimplePowerUp();
+            }
+        }
+
     }
 
     private void setupInputHandling() {
@@ -109,8 +143,7 @@ public class Game extends Pane {
         });
     }
 
-
-    private void displayGameOverPage(){
+    private void displayGameOverPage() {
         Globals.getInstance().display.clear();
         displayScores();
         createRestartButton();
@@ -123,7 +156,7 @@ public class Game extends Pane {
         //FRUZSI
     }
 
-    public void restartGame(){
+    public void restartGame() {
         snakes.clear();
         Globals.getInstance().display.clear();
 
@@ -133,8 +166,8 @@ public class Game extends Pane {
 
     public void checkGameOver() {
         int counter = 0;
-        for(Snake snake: snakes) {
-            if (snake.getHead().isOutOfBounds()){
+        for (Snake snake : snakes) {
+            if (snake.getHead().isOutOfBounds()) {
                 snake.setHealth(0);
                 counter += 1;
             } else if (snake.getHealth() <= 0) {
@@ -147,4 +180,9 @@ public class Game extends Pane {
         }
     }
 
+    private boolean isBothSnakesControlsChanged() {
+        Snake snake1 = snakes.get(0);
+        Snake snake2 = snakes.get(1);
+        return snake1.getAreControlsChanging() && snake2.getAreControlsChanging();
+    }
 }

@@ -59,7 +59,7 @@ public abstract class Enemy extends GameEntity {
             coordinates[1] = y;
             distanceFromSnake1 = Math.sqrt((x - snakeHead1Pos[0]) * (x - snakeHead1Pos[0]) + (y - snakeHead1Pos[1]) * (y - snakeHead1Pos[1]));
             distanceFromSnake2 = Math.sqrt((x - snakeHead2Pos[0]) * (x - snakeHead2Pos[0]) + (y - snakeHead2Pos[1]) * (y - snakeHead2Pos[1]));
-            if (distanceFromSnake1 > 100 && distanceFromSnake2 > 100 ) {
+            if (distanceFromSnake1 > 300 && distanceFromSnake2 > 300 ) {
                 break;
             }
 

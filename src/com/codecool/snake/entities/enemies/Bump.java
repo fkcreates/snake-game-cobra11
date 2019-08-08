@@ -27,8 +27,6 @@ public class Bump extends Enemy implements Animatable, Interactable {
         setImage(Globals.getInstance().getImage("SimpleEnemy"));
         setX(possibleX);
         setY(possibleY);
-        double direction = rnd.nextDouble() * 360;
-        setRotate(direction);
     }
 
 
