@@ -42,8 +42,10 @@ public class Police extends Enemy implements Animatable, Interactable {
 //            destroy();
 //        }
         setImage(Globals.getInstance().getImage(Image));
-        setX(rnd.nextDouble() * Globals.WINDOW_WIDTH);
-        setY(rnd.nextDouble() * Globals.WINDOW_HEIGHT);
+//        setX(rnd.nextDouble() * Globals.WINDOW_WIDTH);
+//        setY(rnd.nextDouble() * Globals.WINDOW_HEIGHT);
+        setX(canSpawn(snakeHead)[0]);
+        setY(canSpawn(snakeHead)[1]);
         double direction = rnd.nextDouble() * 360;
         setRotate(direction);
     }
