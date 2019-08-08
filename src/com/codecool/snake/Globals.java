@@ -44,6 +44,9 @@ public class Globals {
         resources.addImage("PowerUpClearChangeControl", new Image("powerup_clear_change_controls.png"));
         resources.addImage("StopPowerUp", new Image("powerup_stop.png"));
         resources.addImage("HealthPowerUp", new Image("powerup_medkit.png"));
+        resources.addImage("Police", new Image("police.png"));
+        resources.addImage("Bump", new Image("bump.png"));
+
     }
 
     public Image getImage(String name) { return resources.getImage(name); }

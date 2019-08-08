@@ -24,7 +24,7 @@ public class Bump extends Enemy implements Animatable, Interactable {
         double possibleY ;
         possibleX = canSpawn()[0];
         possibleY = canSpawn()[1];
-        setImage(Globals.getInstance().getImage("SimpleEnemy"));
+        setImage(Globals.getInstance().getImage("Bump"));
         setX(possibleX);
         setY(possibleY);
     }

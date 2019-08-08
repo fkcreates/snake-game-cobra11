@@ -62,7 +62,7 @@ public class Game extends Pane {
 
     public void spawnPolice() {
         for (Snake snake : snakes) {
-            Police police = new Police(snake, "SnakeHead1", 30);
+            Police police = new Police(snake, "Police", 30);
             System.out.println(snake);
             polices.add(police);
             snake.getHead().setChaser(police);
