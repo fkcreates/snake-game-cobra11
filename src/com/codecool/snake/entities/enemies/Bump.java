@@ -20,13 +20,18 @@ public class Bump extends Enemy implements Animatable, Interactable {
 
     public Bump() {
         super(10);
-        double possibleX ;
-        double possibleY ;
-        possibleX = canSpawn()[0];
-        possibleY = canSpawn()[1];
         setImage(Globals.getInstance().getImage("Bump"));
-        setX(possibleX);
-        setY(possibleY);
+
+        boolean areCorrectCoordinates = false;
+        while (!areCorrectCoordinates) {
+            double x = rnd.nextDouble() * Globals.WINDOW_WIDTH;
+            double y = rnd.nextDouble() * Globals.WINDOW_HEIGHT;
+            if (((x > 90) && (x < 900)) && ((y > 90) && (y < 600))) {
+                setX(x);
+                setY(y);
+                areCorrectCoordinates = true;
+            }
+        }
     }
 
     @Override
