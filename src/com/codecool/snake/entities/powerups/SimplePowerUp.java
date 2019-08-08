@@ -12,7 +12,7 @@ public class SimplePowerUp extends GameEntity implements Interactable {
     private static Random rnd = new Random();
 
     public SimplePowerUp() {
-        setImage(Globals.getInstance().getImage("PowerUpBerry"));
+        setImage(Globals.getInstance().getImage("Coffee"));
 
         boolean areCorrectCoordinates = false;
         while (!areCorrectCoordinates) {
