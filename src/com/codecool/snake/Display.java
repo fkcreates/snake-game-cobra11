@@ -3,7 +3,10 @@ package com.codecool.snake;
 import com.codecool.snake.entities.GameEntity;
 import java.util.List;
 
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 
 
 public class Display {
@@ -40,5 +43,17 @@ public class Display {
     public void clear() {
         displayPane.getChildren().clear();
         gameObjects.clear();
+    }
+
+    public void add(Button restartButton) {
+        displayPane.getChildren().add(restartButton);
+    }
+
+    public void add(Text text) {
+        displayPane.getChildren().add(text);
+    }
+
+    public void add(Label label){
+        displayPane.getChildren().add(label);
     }
 }

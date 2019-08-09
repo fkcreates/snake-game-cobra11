@@ -5,13 +5,20 @@ import com.codecool.snake.entities.Animatable;
 import com.codecool.snake.entities.Interactable;
 import com.codecool.snake.entities.snakes.Snake;
 
+import javax.swing.text.html.parser.Entity;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ForkJoinPool;
 
 public class GameLoop {
-    private Snake snake;
+
+    private ArrayList<Snake> snakes;
+
     private boolean running = false;
 
-    public GameLoop(Snake snake) { this.snake = snake; }
+    public GameLoop(ArrayList<Snake> snakes) {
+        this.snakes = snakes;
+    }
 
     public void start() {
         running = true;
@@ -22,16 +29,22 @@ public class GameLoop {
     }
 
     public void step() {
+
         if(running) {
-            snake.step();
+            for (Snake snake: snakes) {
+                Globals.getInstance().game.checkGameOver();
+                if(snake.getHealth() > 0) {
+                    snake.step();
+                }
+            }
             for (GameEntity gameObject : Globals.getInstance().display.getObjectList()) {
                 if (gameObject instanceof Animatable) {
                     ((Animatable) gameObject).step();
                 }
             }
             checkCollisions();
+            Globals.getInstance().game.checkGameOver();
         }
-
         Globals.getInstance().display.frameFinished();
     }
 
@@ -42,8 +55,8 @@ public class GameLoop {
             if (objToCheck instanceof Interactable) {
                 for (int otherObjIdx = idxToCheck + 1; otherObjIdx < gameObjs.size(); ++otherObjIdx) {
                     GameEntity otherObj = gameObjs.get(otherObjIdx);
-                    if (otherObj instanceof Interactable){
-                        if(objToCheck.getBoundsInParent().intersects(otherObj.getBoundsInParent())){
+                    if (otherObj instanceof Interactable) {
+                        if (objToCheck.getBoundsInParent().intersects(otherObj.getBoundsInParent())) {
                             ((Interactable) objToCheck).apply(otherObj);
                             ((Interactable) otherObj).apply(objToCheck);
                         }
@@ -52,4 +65,5 @@ public class GameLoop {
             }
         }
     }
+
 }

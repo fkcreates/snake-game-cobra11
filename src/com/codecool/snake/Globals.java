@@ -1,8 +1,11 @@
 package com.codecool.snake;
 
+import com.codecool.snake.entities.enemies.Police;
+import com.codecool.snake.entities.snakes.Snake;
 import com.codecool.snake.resources.Resources;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
+import java.util.ArrayList;
+
 
 // class for holding all static stuff
 public class Globals {
@@ -13,10 +16,11 @@ public class Globals {
 
     public Display display;
     public Game game;
+    public ArrayList<Snake> snakes;
+    public ArrayList<Police> polices;
 
     private GameLoop gameLoop;
     private Resources resources;
-
 
     public static Globals getInstance() {
         if(instance == null) instance = new Globals();
@@ -29,10 +33,22 @@ public class Globals {
 
     public void setupResources() {
         resources = new Resources();
-        resources.addImage("SnakeHead", new Image("snake_head.png"));
-        resources.addImage("SnakeBody", new Image("snake_body.png"));
         resources.addImage("SimpleEnemy", new Image("simple_enemy.png"));
         resources.addImage("PowerUpBerry", new Image("powerup_berry.png"));
+        resources.addImage("Coffee", new Image("coffee.png"));
+        resources.addImage("Background", new Image("background.png"));
+        resources.addImage("SnakeHead1", new Image("snake_head1.png"));
+        resources.addImage("SnakeBody1", new Image("snake_body1.png"));
+        resources.addImage("SnakeHead2", new Image("snake_head2.png"));
+        resources.addImage("SnakeBody2", new Image("snake_body2.png"));
+        resources.addImage("PowerUpChangeControl", new Image("powerup_change_controls.png"));
+        resources.addImage("PowerUpClearChangeControl", new Image("powerup_clear_change_controls.png"));
+        resources.addImage("StopPowerUp", new Image("powerup_stop.png"));
+        resources.addImage("HealthPowerUp", new Image("powerup_medkit.png"));
+        resources.addImage("HealthBarForBlue", new Image("HP_bar_for_blue.png"));
+        resources.addImage("HealthBarForPink", new Image("HP_bar_for_pink.png"));
+        resources.addImage("Police", new Image("police1.png"));
+        resources.addImage("Bump", new Image("bump.png"));
     }
 
     public Image getImage(String name) { return resources.getImage(name); }
